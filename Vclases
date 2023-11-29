@@ -1,0 +1,58 @@
+#include <vector>
+#include <iostream>
+#include <utility>
+
+using namespace std;
+
+vector<vector<pair<int, int>>> aulass(vector<pair<int, int>> clases, int aulas)
+{
+    vector<vector<pair<int, int>>>
+        aulas_disponibles(aulas);
+    for (const auto& clase : clases)
+    {
+        bool asignada = false;
+        for (int i = 0; i < aulas; i++)
+        {
+            bool aula_libre = true;
+            for (const auto& otra_clase : aulas_disponibles[i])
+            {
+                if (clase.first < otra_clase.second && clase.second > otra_clase.first)
+                {
+                    aula_libre = false;
+                    break;
+                }
+            }
+            if (aula_libre)
+            {
+                aulas_disponibles[i].push_back(clase);
+                asignada = true;
+                break;
+            }
+        }
+        if (!asignada)
+        {
+            aulas_disponibles.push_back({ clase });
+        }
+    }
+
+    return aulas_disponibles;
+}
+
+int main()
+{
+    vector<pair<int, int>> clases = { {7, 8}, {8, 12}, {9, 10}, {16, 17}, {1, 2} };
+    int aulas = 3;
+
+    vector<vector<pair<int, int>>> resultado = aulass(clases, aulas);
+    for (int i = 0; i < resultado.size(); i++)
+    {
+        cout << "Aula " << i + 1 << ": ";
+        for (const auto& clase : resultado[i])
+        {
+            cout << "(" << clase.first << "-" << clase.second << ") ";
+        }
+        cout << endl;
+    }
+
+    return 0;
+}
