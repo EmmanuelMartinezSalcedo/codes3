@@ -1,0 +1,28 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+double findMedian(vector<int>& nums) {
+    size_t size = nums.size();
+    size_t medianIndex = size / 2;
+    nth_element(nums.begin(), nums.begin() + medianIndex, nums.end());
+    if (size % 2 == 0) {
+        int median1 = nums[medianIndex];
+        nth_element(nums.begin(), nums.begin() + medianIndex - 1, nums.end());
+        int median2 = nums[medianIndex - 1];
+        return (median1 + median2) / 2.0;
+    } else {
+        return nums[medianIndex];
+    }
+}
+
+int main() {
+    vector<int> numbers = {4, 2, 7, 1, 9, 3, 6};
+    double median = findMedian(numbers);
+    cout << "Median: " << median << endl;
+    for (int i=0;i<numbers.size();i++)
+      {
+        cout<<numbers[i]<<' ';
+      }
+}
